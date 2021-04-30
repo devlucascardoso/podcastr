@@ -1,4 +1,4 @@
-# MindCast
+# Podcastr
 
 ![imgApp](https://user-images.githubusercontent.com/83316119/116637841-5d650c00-a93b-11eb-9aee-2258a5e0ffd8.png)
 
