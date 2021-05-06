@@ -1,11 +1,11 @@
 import { GetStaticProps } from "next";
 import Image from "next/image";
+import Head from "next/head";
 import Link from "next/link";
 import { format, parseISO } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
-import { useContext } from "react";
 
-import { PlayerContext } from "../contexts/PlayerContext";
+import { usePlayer } from "../contexts/PlayerContext";
 
 import { api } from "../services/api";
 import { convertDurationToTimeString } from "../utils/convertDurationToTimeString";
@@ -22,22 +22,27 @@ type Episode = {
   url: string;
   publishedAt: string;
 };
-
 type HomeProps = {
   latestEpisodes: Episode[];
   allEpisodes: Episode[];
 };
 
 export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
-  const { play } = useContext(PlayerContext);
+  const { playList } = usePlayer();
+
+  const episodeList = [...latestEpisodes, ...allEpisodes];
 
   return (
     <div className={styles.homePage}>
+      <Head>
+        <title>Home | Podcastr</title>
+      </Head>
+
       <section className={styles.latestEpisodes}>
         <h2>Últimos lançamentos</h2>
 
         <ul>
-          {latestEpisodes.map((episode) => {
+          {latestEpisodes.map((episode, index) => {
             return (
               <li key={episode.id}>
                 <Image
@@ -47,7 +52,6 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                   alt={episode.title}
                   objectFit="cover"
                 />
-
                 <div className={styles.episodeDetails}>
                   <Link href={`/episodes/${episode.id}`}>
                     <a>{episode.title}</a>
@@ -57,7 +61,10 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                   <span>{episode.durationAsString}</span>
                 </div>
 
-                <button type="button" onClick={() => play(episode)}>
+                <button
+                  type="button"
+                  onClick={() => playList(episodeList, index)}
+                >
                   <img src="/play-green.svg" alt="Tocar episódio" />
                 </button>
               </li>
@@ -65,10 +72,8 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
           })}
         </ul>
       </section>
-
       <section className={styles.allEpisodes}>
         <h2>Todos episódios</h2>
-
         <table cellSpacing={0}>
           <thead>
             <tr>
@@ -82,7 +87,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
           </thead>
 
           <tbody>
-            {allEpisodes.map((episode) => {
+            {allEpisodes.map((episode, index) => {
               return (
                 <tr key={episode.id}>
                   <td style={{ width: 72 }}>
@@ -103,7 +108,12 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                   <td style={{ width: 100 }}>{episode.publishedAt}</td>
                   <td>{episode.durationAsString}</td>
                   <td>
-                    <button type="button">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        playList(episodeList, index + latestEpisodes.length)
+                      }
+                    >
                       <img src="/play-green.svg" alt="Tocar episódio" />
                     </button>
                   </td>
@@ -116,7 +126,6 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
     </div>
   );
 }
-
 export const getStaticProps: GetStaticProps = async () => {
   const { data } = await api.get("episodes", {
     params: {
@@ -125,7 +134,6 @@ export const getStaticProps: GetStaticProps = async () => {
       _order: "desc",
     },
   });
-
   const episodes = data.map((episode) => {
     return {
       id: episode.id,
@@ -142,16 +150,13 @@ export const getStaticProps: GetStaticProps = async () => {
       url: episode.file.url,
     };
   });
-
   const latestEpisodes = episodes.slice(0, 2);
   const allEpisodes = episodes.slice(2, episodes.length);
-
   return {
     props: {
       latestEpisodes,
       allEpisodes,
     },
-    //determina de quanto em quanto tempo vai gerar um html novo
     revalidate: 60 * 60 * 8, // A cada 8 hrs
   };
 };
