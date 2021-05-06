@@ -3,12 +3,13 @@ import ptBR from "date-fns/locale/pt-BR";
 import { GetStaticPaths, GetStaticProps } from "next"; 
 import Image from "next/image";
 import Link from "next/link";
+import Head from "next/head";
+
+import { usePlayer } from "../../contexts/PlayerContext";
 
 import { api } from "../../services/api";
 import { convertDurationToTimeString } from "../../utils/convertDurationToTimeString";
-
 import styles from "./episode.module.scss";
-
 type Episode = {
   id: string;
   title: string;
@@ -20,14 +21,17 @@ type Episode = {
   publishedAt: string;
   description: string;
 };
-
 type EpisodeProps = {
   episode: Episode;
 };
 
 export default function Episode({ episode }: EpisodeProps) {
+  const { play } = usePlayer();
   return (
     <div className={styles.episode}>
+      <Head>
+        <title>{episode.title} | Podcastr</title>
+      </Head>
       <div className={styles.thumbnailContainer}>
         <Link href="/">
           <button type="button">
@@ -42,7 +46,7 @@ export default function Episode({ episode }: EpisodeProps) {
         />
 
         <button type="button">
-          <img src="/play.svg" alt="Tocar episódio" />
+          <img src="/play.svg" alt="Tocar episódio" onClick={() => play(episode)}/>
         </button>
       </div>
 
@@ -52,7 +56,6 @@ export default function Episode({ episode }: EpisodeProps) {
         <span>{episode.publishedAt}</span>
         <span>{episode.durationAsString}</span>
       </header>
-
       <div
         className={styles.description}
         dangerouslySetInnerHTML={{ __html: episode.description }}
@@ -60,35 +63,29 @@ export default function Episode({ episode }: EpisodeProps) {
     </div>
   );
 }
-
-  export const getStaticPaths: GetStaticPaths = async () => {
-    const { data } = await api.get("episodes", {
+export const getStaticPaths: GetStaticPaths = async () => {
+  const { data } = await api.get("episodes", {
+    params: {
+      _limit: 2,
+      _sort: "published_at",
+      _order: "desc",
+    },
+  });
+  const paths = data.map((episode) => {
+    return {
       params: {
-        _limit: 2,
-        _sort: "published_at",
-        _order: "desc",
+        slug: episode.id,
       },
-    });
-  
-    const paths = data.map((episode) => {
-      return {
-        params: {
-          slug: episode.id,
-        },
-      };
-    });
-
+    };
+  });
   return {
     paths,
     fallback: "blocking",
   };
 };
-
 export const getStaticProps: GetStaticProps = async (context) => {
   const { slug } = context.params;
-
   const { data } = await api.get(`/episodes/${slug}`);
-
   const episode = {
     id: data.id,
     title: data.title,
