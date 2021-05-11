@@ -4,7 +4,7 @@ import {usePlayer} from '../../contexts/PlayerContext';
 import styles from './styles.module.scss';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import {convertDurationToTimeString} from '../../utils/convertDurationToTimeString';
+import { convertDurationToTimeString } from '../../utils/convertDurationToTimeString';
 
 export function Player() {
 	const audioRef = useRef<HTMLAudioElement>(null);
