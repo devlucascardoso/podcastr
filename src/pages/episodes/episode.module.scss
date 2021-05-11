@@ -1,8 +1,10 @@
 .episode {
-  max-width: 45rem;
   padding: 3rem 2rem;
+  max-width: 50rem;
   margin: 0 auto;
-
+  height: calc(100vh - 6.5rem);
+  overflow-y: auto;
+  
   .thumbnailContainer {
     position: relative;
 
@@ -19,7 +21,7 @@
       z-index: 5;
       font-size: 0;
 
-      transition: 0.2s;
+      transition: filter 0.2s;
 
       &:first-child {
         left: 0;
@@ -36,11 +38,11 @@
       }
 
       &:hover {
-        filter: brightness(0.95);
+        filter: brightness(0.9)
       }
     }
   }
-
+  
   header {
     padding-bottom: 1rem;
     border-bottom: 1px solid var(--gray-100);
@@ -60,11 +62,11 @@
         position: relative;
 
         &::before {
-          content: "";
+          content: '';
           width: 4px;
           height: 4px;
           border-radius: 2px;
-          background: #ddd;
+          background: #DDD;
           position: absolute;
           left: 0;
           top: 50%;
