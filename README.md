@@ -18,22 +18,20 @@ It's free!
 
 ### Prerequisites
 To run this project in the development mode, you'll need to have a basic environment to run a ReactJS, that can be found [here](https://reactjs.org/docs/getting-started.html).
-Also, you'll need to the server running locally on your machine with the mock data. You can find the server and all the instructions to start the server [here](https://github.com/devlucascardoso/ATUALIZAR-SERVER!!!).
+Also, you'll need to the server running locally on your machine with the mock data. You can find the server and all the instructions to start the server [here](https://github.com/devlucascardoso/NLW5-Trilha_ReactJS/server.json).
 
 ### Downloading and Installing
 
 **Cloning the Repository**
 
 ```
-$ git clone https://github.com/devlucascardoso/NLW5-Trilha_ReactJS
-
-$ cd NLW5-Trilha_ReactJS
+$ git clone https://github.com/devlucascardoso/NLW5-Trilha_ReactJS && cd NLW5-Trilha_ReactJS
 ```
 
 **Installing dependencies**
 
 ```
-$ yarn
+$ yarn install
 ```
 
 _or_
@@ -41,6 +39,22 @@ _or_
 ```
 $ npm install
 ```
+
+**Run the application**
+
+```
+$ yarn dev
+```
+
+_or_
+
+```
+$ npm run dev
+
+# Open localhost:3000 it in your browser to see it working!
+```
+
+
 ## Built With
 
 - [React.JS](https://reactjs.org/)
