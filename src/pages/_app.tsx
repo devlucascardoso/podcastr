@@ -1,24 +1,26 @@
-import "../styles/global.scss";
+import Head from 'next/head';
+import '../styles/global.scss';
+import styles from '../styles/app.module.scss';
 
-import { PlayerContextProvider } from "../contexts/PlayerContext";
+import {Header} from '../components/Header';
+import {Player} from '../components/Player';
+import { PlayerContextProvider } from '../contexts/PlayerContext';
 
-import { Header } from "../components/Header";
-import { Player } from "../components/Player";
-
-import styles from "../styles/app.module.scss";
-
-function MyApp({ Component, pageProps }) {
-  return (
-    <PlayerContextProvider>
-      <div className={styles.wrapper}>
-        <main>
-          <Header />
-          <Component {...pageProps} />
-        </main>
-        <Player />
-      </div>
-      </PlayerContextProvider>
-  );
+function MyApp({Component, pageProps}) {
+	return (
+		<PlayerContextProvider>
+			<div className={styles.wrapper}>
+				<Head>
+					<title>Home | Podcastr</title>
+				</Head>
+				<main>
+					<Header />
+					<Component {...pageProps} />
+				</main>
+				<Player />
+			</div>
+		</PlayerContextProvider>
+	);
 }
 
 export default MyApp;
