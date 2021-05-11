@@ -1,54 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@500;600&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-  :root {
-    --white: #FFF;
-  
-    --gray-50: #F7F8FA;
-    --gray-100: #E6E8EB;
-    --gray-200: #AFB2B1;
-    --gray-500: #808080;
-    --gray-800: #494D4B;
-  
-    --green-500: #04D361;
-    
-    --purple-300: #9F75FF;
-    --purple-400: #9164FA; 
-    --purple-500: #8257E5;
-    --purple-800: #6F48C9;
-  }
+:root {
+  --white: #FFF;
 
-@media (max-width: 1880px) {
-  html{
-    font-size:93,75%; // 15px
+  --gray-50: #F7F8FA;
+  --gray-100: #E6E8EB;
+  --gray-200: #AFB2B1;
+  --gray-500: #808080;
+  --gray-800: #494D4B;
+
+  --green-500: #04D361;
+  
+  --purple-300: #9F75FF;
+  --purple-400: #9164FA; 
+  --purple-500: #8257E5;
+  --purple-800: #6F48C9;
+}
+
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--gray-50);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--gray-100);
+  border-radius: 0px;
+  border: 0px;
+  &:hover {
+    background-color: var(--gray-200);
+  }
+  &:active {
+    background-color: var(--gray-500);
+  }
+}
+
+@media (max-width: 1600px) {
+  html {
+    font-size: 87.5%;
+  }
+}
+
+@media (max-width: 1440px) {
+  html {
+    font-size: 83.75%;
+  }
+}
+
+@media (max-width: 1366px) {
+  html {
+    font-size: 79%;
+  }
+}
+
+@media (max-width: 1080px) {
+  html {
+    font-size: 93.75%;
   }
 }
 
 @media (max-width: 720px) {
-  html{
-    font-size:87,5%; // 14px
+  html {
+    font-size: 87.5%;
   }
 }
 
+
 body {
-  background: var(--gray-50);
+  background-color: var(--gray-50);
 }
 
 body, input, textarea, button {
-  font: 500 1rem Inter, sans-serif;
+  font-weight: 500;
+  font-family: Montserrat, sans-serif;
+  font-size: 1rem;
   color: var(--gray-500);
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-weight:600;
-  font-family: Lexen, sans-serif;
+  font-weight: 600;
+  font-family: Lexend, sans-serif;
   color: var(--gray-800);
 }
 
-h1{
+h1 {
   font-size: 2rem;
 }
 
